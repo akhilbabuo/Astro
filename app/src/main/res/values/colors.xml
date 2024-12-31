@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="appPrimaryDark">#0F0F0F</color>
+    <color name="appPrimaryDarkBackGround">#1B1B1B</color>
+    <color name="appSecondaryDark">#232D3F</color>
+    <color name="appSecondaryLight">#005B41</color>
+    <color name="appPrimaryLight">#008170</color>
+    <color name="appPrimaryLight0">#5f948d</color>
+    <color name="appPrimaryLight50">#389488</color>
+    <color name="appPrimaryLight80">#1e8f80</color>
+    <color name="appSecondaryDark80">#BDBDBD</color>
+
 </resources>
