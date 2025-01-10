@@ -1,4 +1,4 @@
-package com.blackbird.astro.base.ui
+package com.blackbird.astro.core.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import com.blackbird.astro.BR
 import kotlin.reflect.KClass
 
 
-abstract class BaseViewModelFragment<VM : ViewModel, VB : ViewDataBinding>(
+abstract class BaseViewModelFragment<VB : ViewDataBinding, VM : ViewModel>(
     @LayoutRes val mLayout: Int, private val viewModelClass: KClass<VM>
 ) : BaseFragment<VB>(mLayout) {
 
@@ -34,11 +34,13 @@ abstract class BaseViewModelFragment<VM : ViewModel, VB : ViewDataBinding>(
         super.onViewCreated(view, savedInstanceState)
         binding?.setVariable(BR.viewModel, fragmentViewModel)
         initView()
+        binding?.setClickListeners()
         handleObservers()
     }
 
-    open fun initView() {}
+    open fun VB.setClickListeners() {}
 
+    open fun initView() {}
 
     open fun handleObservers() {}
 }

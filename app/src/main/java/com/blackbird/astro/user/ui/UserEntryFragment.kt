@@ -1,16 +1,14 @@
 package com.blackbird.astro.user.ui
 
-import android.util.Log
 import androidx.navigation.fragment.findNavController
-import com.blackbird.astro.base.ui.BaseViewModelFragment
+import com.blackbird.astro.core.ui.BaseViewModelFragment
 import com.blackbird.astro.R
 import com.blackbird.astro.databinding.FragmentUserEntryBinding
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class UserEntryFragment : BaseViewModelFragment<UserEntryViewModel, FragmentUserEntryBinding>(
+class UserEntryFragment : BaseViewModelFragment<FragmentUserEntryBinding,UserEntryViewModel>(
     R.layout.fragment_user_entry,
     UserEntryViewModel::class
 ) {
@@ -21,9 +19,7 @@ class UserEntryFragment : BaseViewModelFragment<UserEntryViewModel, FragmentUser
                 fragmentViewModel.saveUserName(etQuUserName.text.toString())
             }
         }
-        FirebaseMessaging.getInstance().token.addOnSuccessListener {
-            Log.d("akhil", "onNewToken - frg: $it ")
-        }
+
     }
 
     override fun handleObservers() {

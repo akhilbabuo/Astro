@@ -5,4 +5,7 @@
     <string name="hey_user_name">Hey..!!\nLets get started with your name</string>
     <string name="lets_go">Lets go..!!</string>
     <string name="profile_icon_desc">profile icon</string>
+    <string name="spend_this_week">Spend this week</string>
+    <string name="add_spending_limit">set a limit and control your spending. Set Limit?</string>
+    <string name="last_transaction">Last Transaction</string>
 </resources>

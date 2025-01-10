@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".home.ui.HomeFragment">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.blackbird.astro.home.ui.HomeViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -12,36 +19,173 @@
         android:padding="2dp"
         android:paddingTop="10dp">
 
-        <ImageView
-            android:id="@+id/imUserPicture"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/profile_icon_desc"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvUserName"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topContainer"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            app:layout_constraintBottom_toBottomOf="@id/imUserPicture"
-            app:layout_constraintStart_toEndOf="@id/imUserPicture"
-            app:layout_constraintTop_toTopOf="@id/imUserPicture"
-            tools:text="userName" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/lowerContainer"
+            app:layout_constrainedHeight="true"
+            tools:layout_editor_absoluteX="2dp">
+
+            <ImageView
+                android:id="@+id/userImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:src="@drawable/round_account_circle_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".75"
+                app:tint="@color/white" />
+
+            <View
+                android:id="@+id/userProfileview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constrainedHeight="true"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="@id/userImage"
+                app:layout_constraintEnd_toEndOf="@id/tvQuUserName"
+                app:layout_constraintStart_toStartOf="@id/userImage"
+                app:layout_constraintTop_toTopOf="@id/userImage" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvQuUserName"
+                style="@style/MyRoundedTextViewSyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text='@{"hey,"+ viewModel.userName}'
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/userImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".75"
+                tools:text="hey," />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="@string/spend_this_week"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userImage" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvSpendAmount"
+                style="@style/MyRoundedTextViewSyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text='@{"₹" + viewModel.weeklySpending.toString()}'
+                android:textSize="36sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvMonth"
+                tools:text="₹ 1500" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvLimit"
+                style="@style/MyRoundedTextViewSyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="@{viewModel.spendingLimitText}"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSpendAmount"
+                tools:text="set a limit and control your spending. Set Limit ?" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="18dp"
+            android:id="@+id/lowerContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:padding="8dp"
+            android:paddingBottom="18dp"
+            android:background="@drawable/top_rounded_box"
+
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/pill"
+                android:layout_width="18dp"
+                android:layout_height="4dp"
+                android:background="@color/appPrimaryLight50"
+                android:elevation="1dp"
+                app:layout_constraintBottom_toTopOf="@id/tvTitleLastTrans"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvTitleLastTrans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="@string/last_transaction"
+                app:layout_constraintBottom_toTopOf="@id/rvTransaction"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="last Transaction" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTransaction"
+                isVisible="@{!viewModel.isErrorVisible}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toTopOf="@id/includeEmptyScreen"
+                app:layout_constraintVertical_bias="1"
+                />
+
+            <include
+                android:id="@+id/includeEmptyScreen"
+                isVisible="@{viewModel.isErrorVisible}"
+                layout="@layout/empty_response"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:errorMessage="@{viewModel.errorMessage}"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/imNotification"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/baseline_notifications_active_24"
-            android:contentDescription="@string/profile_icon_desc"
+            android:id="@+id/fab"
+            android:layout_width="46dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="18dp"
+            android:src="@drawable/baseline_add_circle_24"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:alpha="0.5"
+            app:tint="@color/white" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

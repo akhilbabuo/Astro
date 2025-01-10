@@ -1,8 +1,8 @@
 package com.blackbird.astro.user.data
 
-class UserEntryRepository {
+import javax.inject.Inject
 
-    fun saveUserName(userName: String) {
+class UserEntryRepository @Inject constructor() {
 
-    }
+
 }

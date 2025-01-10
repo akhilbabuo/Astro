@@ -1,4 +1,4 @@
-package com.blackbird.astro
+package com.blackbird.astro.core
 
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService

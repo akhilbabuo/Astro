@@ -12,5 +12,6 @@
     <color name="appPrimaryLight50">#389488</color>
     <color name="appPrimaryLight80">#1e8f80</color>
     <color name="appSecondaryDark80">#BDBDBD</color>
+    <color name="appSecondaryDarkCard">#232D3F</color>
 
 </resources>

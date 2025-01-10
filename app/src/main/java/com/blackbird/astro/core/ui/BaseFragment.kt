@@ -1,4 +1,4 @@
-package com.blackbird.astro.base.ui
+package com.blackbird.astro.core.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
