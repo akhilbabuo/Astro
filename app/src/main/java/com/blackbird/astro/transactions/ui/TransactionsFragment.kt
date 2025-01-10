@@ -32,6 +32,7 @@ class TransactionsFragment :
                 if (transactionList.isEmpty()) {
                     showErrorScreen("No Data")
                 } else {
+                    binding?.isErrorVisible = false
                     mAdapter.setTransactionList(transactionList)
                 }
             }
@@ -44,6 +45,12 @@ class TransactionsFragment :
         binding?.apply {
             isErrorVisible = true
             includeEmptyScreen.tvErrorMessage.text = errorMessage
+        }
+    }
+
+    override fun FragmentTransactionsBinding.setClickListeners() {
+        binding?.fab?.setOnClickListener {
+            AddTransactionBottomSheet().show(childFragmentManager,AddTransactionBottomSheet::class.simpleName)
         }
     }
 }

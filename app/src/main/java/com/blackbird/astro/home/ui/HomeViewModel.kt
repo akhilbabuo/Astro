@@ -6,17 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blackbird.astro.R
 import com.blackbird.astro.core.ResourcesProvider
-import com.blackbird.astro.core.models.Transaction
+import com.blackbird.astro.core.db.entity.Transaction
 import com.blackbird.astro.transactions.data.TransactionLimit
 import com.blackbird.astro.transactions.data.TransactionsRepository
 import com.blackbird.astro.transactions.ui.Response
 import com.blackbird.astro.user.data.UserPreferenceRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -57,7 +59,7 @@ class HomeViewModel @Inject constructor(
                     else -> {
                         spendLimit.emit(limit)
                         val diff = limit - weeklySpending.value
-                        if (diff>0) "safe to spend $diff" else "overspend $diff"
+                        if (diff>0) "safe to spend $diff" else "overspend ${diff.absoluteValue}"
                     }
                 }.let { text ->
                     spendingLimitText.emit(text)
@@ -67,7 +69,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getTransactions() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             transactionRepository.getTransactions(TransactionLimit.Week(1))
                 .collectLatest { response ->
                     when (response) {

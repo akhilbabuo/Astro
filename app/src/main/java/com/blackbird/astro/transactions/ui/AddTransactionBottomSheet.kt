@@ -1,37 +1,41 @@
-package com.blackbird.astro.core.ui
+package com.blackbird.astro.transactions.ui
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.blackbird.astro.databinding.QueryBottomSheetDialogBinding
+import androidx.fragment.app.viewModels
+import com.blackbird.astro.core.db.entity.Transaction
+import com.blackbird.astro.databinding.AddTransactionBottomSheetLayoutBinding
+import com.blackbird.astro.extenstions.TAG
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class QueryBottomSheetDialogFragment(
-    private val title: String? = null,
-    private val info: String? = null,
-    private val inputType: Int? = null,
-    private val hint: String? = null,
-    private val positiveCtaText :String = "ok",
-    private val onClick: (String) -> Unit
-) : BottomSheetDialogFragment() {
 
-    lateinit var binding: QueryBottomSheetDialogBinding
+@AndroidEntryPoint
+class AddTransactionBottomSheet : BottomSheetDialogFragment() {
+
+    lateinit var binding: AddTransactionBottomSheetLayoutBinding
+
+    val transactionsViewModel by viewModels<TransactionsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = QueryBottomSheetDialogBinding.inflate(inflater, container, false)
+        Log.d(TAG, "onCreateView: ")
+        binding = AddTransactionBottomSheetLayoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        Log.d(TAG, "onCreateDialog: ")
         dialog?.setOnShowListener { it ->
             val d = it as BottomSheetDialog
             val bottomSheet =
@@ -44,18 +48,27 @@ class QueryBottomSheetDialogFragment(
         return super.onCreateDialog(savedInstanceState)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvTitle.text = title
-        binding.info.text = info
-        inputType?.let {
-            binding.etUserEntry.inputType = it
-        }
-        binding.etUserEntry.hint = hint
-        binding.btPositiveCta.text = positiveCtaText
+        Log.d(TAG, "onViewCreated: ")
         binding.btPositiveCta.setOnClickListener {
-            onClick.invoke(binding.etUserEntry.text.toString())
+            transactionsViewModel.addTransaction(Transaction(
+                amount = binding.etAmount.text.toString().toFloatOrNull() ?: 0f,
+                method = binding.etMethod.text.toString(),
+                time = binding.etdate.text.toString().toIntOrNull() ?: 0
+            ))
             dismissAllowingStateLoss()
+
         }
     }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        Log.d(TAG, "onDismiss: ")
+    }
+
+
+
+
 }

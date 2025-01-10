@@ -1,27 +1,31 @@
 package com.blackbird.astro.transactions.data
 
-import com.blackbird.astro.core.models.Transaction
+import com.blackbird.astro.core.db.TransactionDao
+import com.blackbird.astro.core.db.entity.Transaction
 import com.blackbird.astro.transactions.ui.Response
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
+
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class TransactionsRepository @Inject constructor() {
+class TransactionsRepository @Inject constructor(
+    private val transactionDao: TransactionDao
+) {
+    suspend fun getTransactions(limit: TransactionLimit = TransactionLimit.Week(1)): Flow<Response<List<Transaction>>> {
+        return flow {
+            transactionDao.getAllTransaction().catch { throwable->
+                emit(listOf())
+            }.collect {
+                emit(Response.SUCCESS(it))
+            }
 
-    fun getTransactions(limit: TransactionLimit = TransactionLimit.Week(1)): StateFlow<Response<List<Transaction>>> {
-        return MutableStateFlow(
-            Response.SUCCESS(
-                listOf<Transaction>(
-                    Transaction(
-                        20f,
-                        "upi",
-                        1221
-                    )
-                )
-            )
-        )
+        }
     }
 
+    suspend fun insertTransaction(transaction: Transaction){
+        transactionDao.insert(transaction)
+    }
 
 }
 

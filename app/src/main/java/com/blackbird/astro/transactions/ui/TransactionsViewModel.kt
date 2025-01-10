@@ -2,7 +2,7 @@ package com.blackbird.astro.transactions.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blackbird.astro.core.models.Transaction
+import com.blackbird.astro.core.db.entity.Transaction
 import com.blackbird.astro.transactions.data.TransactionsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,16 +18,30 @@ class TransactionsViewModel @Inject constructor(private val repository: Transact
 
     fun getTransactions() {
         viewModelScope.launch(Dispatchers.IO) {
-            val transactionListResponse : StateFlow<Response<List<Transaction>>> = repository.getTransactions()
-            when(transactionListResponse.value){
-                is Response.SUCCESS ->{
-                    println("success")
-                    transactionListResponse.value.data?.let { transactionListFlow.emit(it) }
-                }
-                is Response.ERROR ->{
-
+            repository.getTransactions().collect{ transactionListResponse->
+                when(transactionListResponse){
+                    is Response.SUCCESS ->{
+                        println("success")
+                        transactionListResponse.data?.let { transactionListFlow.emit(it) }
+                    }
+                    is Response.ERROR ->{
+                        println("error")
+                    }
                 }
             }
+
+        }
+    }
+
+
+    fun addTransaction(transaction: Transaction){
+        viewModelScope.launch(Dispatchers.IO) {
+            Transaction(
+                amount = 12f,
+                method = "testing",
+                time = 123123
+            )
+            repository.insertTransaction(transaction)
         }
     }
 

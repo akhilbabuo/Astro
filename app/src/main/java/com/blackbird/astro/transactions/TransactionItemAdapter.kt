@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.blackbird.astro.core.models.Transaction
+import com.blackbird.astro.core.db.entity.Transaction
 import com.blackbird.astro.databinding.TransactionListItemBinding
 
 class TransactionItemAdapter :

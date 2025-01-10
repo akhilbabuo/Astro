@@ -9,6 +9,7 @@ import com.blackbird.astro.core.ui.QueryBottomSheetDialogFragment
 import com.blackbird.astro.databinding.FragmentHomeBinding
 import com.blackbird.astro.extenstions.collectLatestStateFlow
 import com.blackbird.astro.transactions.TransactionItemAdapter
+import com.blackbird.astro.transactions.ui.AddTransactionBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,6 +43,7 @@ class HomeFragment : BaseViewModelFragment<FragmentHomeBinding, HomeViewModel>(
     override fun FragmentHomeBinding.setClickListeners() {
         fab.setOnClickListener {
             showAddTransaction()
+//            fragmentViewModel.addTransaction()
         }
         userProfileview.setOnClickListener {
             openProfile()
@@ -70,19 +72,13 @@ class HomeFragment : BaseViewModelFragment<FragmentHomeBinding, HomeViewModel>(
                     fragmentViewModel.setSpendingLimit(it)
                 }
             }
-            sheet.show(childFragmentManager, "queryManager")
+            sheet.show(childFragmentManager, QueryBottomSheetDialogFragment::class.simpleName)
         }
     }
 
     private fun showAddTransaction() {
-        val sheet = QueryBottomSheetDialogFragment(
-            title = "New Transaction",
-            info = "add this missing transaction"
-        ) {
-            Log.d("tag", "showAddTransaction: $it")
-        }
-        sheet.show(childFragmentManager, "queryManager")
-
+        val sheet = AddTransactionBottomSheet()
+        sheet.show(childFragmentManager, AddTransactionBottomSheet::class.simpleName)
     }
 
     private fun openProfile() {
